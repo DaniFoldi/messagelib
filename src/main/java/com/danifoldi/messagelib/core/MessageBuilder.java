@@ -1,5 +1,8 @@
 package com.danifoldi.messagelib.core;
 
+import com.danifoldi.messagelib.messageprovider.MessageProvider;
+import com.danifoldi.messagelib.templateprocessor.TemplateProcessor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
