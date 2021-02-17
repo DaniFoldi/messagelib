@@ -24,7 +24,7 @@ public class MessageBuilder {
         return new MessageBuilder(provider, processor);
     }
 
-    private class BaseMessageBuilder {
+    public class BaseMessageBuilder {
 
         private class Replacement {
             String from;
@@ -39,8 +39,8 @@ public class MessageBuilder {
             }
         }
 
-        String base;
-        List<Replacement> replacements;
+        private String base;
+        private List<Replacement> replacements;
 
         private BaseMessageBuilder(String base) {
             this.base = base;
