@@ -5,7 +5,7 @@ final class TemplateProcessors {
     static final TemplateProcessor BRACKET_PROCESSOR = from -> "{" + from + "}";
     static final TemplateProcessor LITERAL_PROCESSOR = from -> "${" + from + "}";
 
-    protected TemplateProcessors() {
+    private TemplateProcessors() {
         throw new UnsupportedOperationException();
     }
 }
