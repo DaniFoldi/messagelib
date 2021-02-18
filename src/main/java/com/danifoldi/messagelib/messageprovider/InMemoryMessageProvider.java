@@ -3,8 +3,8 @@ package com.danifoldi.messagelib.messageprovider;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryMessageProvider implements MessageProvider {
-    Map<String, String> values = new HashMap<>();
+public class InMemoryMessageProvider implements MessageProvider<String> {
+    private final Map<String, String> values = new HashMap<>();
 
     public InMemoryMessageProvider() { }
 
@@ -21,11 +21,7 @@ public class InMemoryMessageProvider implements MessageProvider {
     }
 
     @Override
-    public String getMessageBase(Object id) {
-        if (!(id instanceof String)) {
-            return "";
-        }
-
+    public String getMessageBase(String id) {
         return values.getOrDefault(id, "");
     }
 }

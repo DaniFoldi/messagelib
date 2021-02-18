@@ -1,5 +1,7 @@
 package com.danifoldi.messagelib.messageprovider;
 
-public interface MessageProvider {
-    String getMessageBase(Object id);
+@FunctionalInterface
+public interface MessageProvider<I> {
+
+    String getMessageBase(I id);
 }

@@ -13,9 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JsonMessageProvider implements MessageProvider {
+public class JsonMessageProvider implements MessageProvider<String> {
 
-    final JsonObject json;
+    private final JsonObject json;
 
     public JsonMessageProvider(Path messageFile) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(messageFile);
@@ -25,12 +25,8 @@ public class JsonMessageProvider implements MessageProvider {
     }
 
     @Override
-    public String getMessageBase(Object id) {
-        if (!(id instanceof String)) {
-            throw new IllegalArgumentException();
-        }
-
-        List<String> path = Arrays.stream(((String)id).split("\\.")).collect(Collectors.toList());
+    public String getMessageBase(String id) {
+        List<String> path = Arrays.stream(id.split("\\.")).collect(Collectors.toList());
         String last = path.remove(path.size() - 1);
         JsonObject p = json;
 
@@ -38,6 +34,6 @@ public class JsonMessageProvider implements MessageProvider {
             p = p.getJsonObject(pathPart);
         }
 
-        return p.getString(last, id.toString());
+        return p.getString(last, id);
     }
 }

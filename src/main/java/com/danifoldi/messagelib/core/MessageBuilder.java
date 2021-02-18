@@ -7,21 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MessageBuilder {
-    private MessageProvider provider;
+public class MessageBuilder<I> {
+    private MessageProvider<I> provider;
     private TemplateProcessor processor;
 
-    public MessageBuilder(MessageProvider provider, TemplateProcessor processor) {
+    public MessageBuilder(MessageProvider<I> provider, TemplateProcessor processor) {
         this.provider = provider;
         this.processor = processor;
     }
 
-    MessageBuilder usingProvider(MessageProvider provider) {
-        return new MessageBuilder(provider, processor);
+    MessageBuilder<I> usingProvider(MessageProvider<I> provider) {
+        return new MessageBuilder<>(provider, processor);
     }
 
-    MessageBuilder usingProcessor(TemplateProcessor processor) {
-        return new MessageBuilder(provider, processor);
+    MessageBuilder<I> usingProcessor(TemplateProcessor processor) {
+        return new MessageBuilder<>(provider, processor);
     }
 
     public class BaseMessageBuilder {
@@ -82,7 +82,7 @@ public class MessageBuilder {
         }
     }
 
-    public BaseMessageBuilder getBase(Object id) {
+    public BaseMessageBuilder getBase(I id) {
         return new BaseMessageBuilder(provider.getMessageBase(id));
     }
 }
