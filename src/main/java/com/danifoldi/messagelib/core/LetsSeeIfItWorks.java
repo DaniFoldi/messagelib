@@ -8,7 +8,7 @@ import java.util.Map;
 public class LetsSeeIfItWorks {
     public static void main(String[] args) {
         InMemoryMessageProvider provider = new InMemoryMessageProvider();
-        TemplateProcessor processor = TemplateProcessor.bracketProcessor;
+        TemplateProcessor processor = TemplateProcessor.bracket();
 
         MessageBuilder messageBuilder = new MessageBuilder(provider, processor);
 
