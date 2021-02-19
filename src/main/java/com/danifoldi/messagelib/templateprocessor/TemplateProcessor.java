@@ -1,9 +1,11 @@
 package com.danifoldi.messagelib.templateprocessor;
 
+import org.jetbrains.annotations.NotNull;
+
 @FunctionalInterface
 public interface TemplateProcessor {
 
-    String toTemplate(String from);
+    @NotNull String toTemplate(final @NotNull String from);
 
     static TemplateProcessor percent() {
         return TemplateProcessors.PERCENT_PROCESSOR;
