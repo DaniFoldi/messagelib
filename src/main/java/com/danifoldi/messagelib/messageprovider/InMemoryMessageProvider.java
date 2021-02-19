@@ -26,6 +26,6 @@ public class InMemoryMessageProvider implements MessageProvider<String> {
 
     @Override
     public @NotNull String getMessageBase(final @NotNull String id) {
-        return values.getOrDefault(id, "");
+        return values.getOrDefault(requireNonNull(id), "");
     }
 }
