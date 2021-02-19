@@ -9,13 +9,7 @@ public class LetsSeeIfItWorks {
     public static void main(String[] args) {
         InMemoryMessageProvider provider = new InMemoryMessageProvider();
         TemplateProcessor processor = TemplateProcessor.bracket();
-
-        //MessageBuilder<String> messageBuilder = new MessageBuilder<>(provider, processor);
-        MessageBuilder<String> messageBuilder = MessageBuilder.<String>newBuilder()
-                .usingProvider(provider)
-                .usingProcessor(processor)
-                .build();
-        MessageBuilder<String> messageBuilder1 = new MessageBuilder<>(provider, processor);
+        MessageBuilder<String> messageBuilder = new MessageBuilder<>(provider, processor);
 
         provider.addMessages(Map.of("test", "This is a test {message} {test}", "random", "this is a random {message}", "message", "This is a {message}"));
 

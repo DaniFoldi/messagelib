@@ -14,45 +14,9 @@ public class MessageBuilder<I> {
     private final MessageProvider<I> provider;
     private final TemplateProcessor processor;
 
-    // TODO make this private? Maybe?
     public MessageBuilder(final @NotNull MessageProvider<I> provider, final @NotNull TemplateProcessor processor) {
         this.provider = requireNonNull(provider);
         this.processor = requireNonNull(processor);
-    }
-
-    @Deprecated
-    MessageBuilder<I> usingProvider(MessageProvider<I> provider) {
-        return new MessageBuilder<>(provider, processor);
-    }
-
-    @Deprecated
-    MessageBuilder<I> usingProcessor(TemplateProcessor processor) {
-        return new MessageBuilder<>(provider, processor);
-    }
-
-    public static <I> Builder<I> newBuilder() {
-        return new Builder<>();
-    }
-
-    public static class Builder<I> {
-        private MessageProvider<I> provider;
-        private TemplateProcessor processor;
-
-        private Builder() {}
-
-        public @NotNull Builder<I> usingProvider(final @NotNull MessageProvider<I> provider) {
-            this.provider = provider;
-            return this;
-        }
-
-        public @NotNull Builder<I> usingProcessor(final @NotNull TemplateProcessor processor) {
-            this.processor = processor;
-            return this;
-        }
-
-        public @NotNull MessageBuilder<I> build() {
-            return new MessageBuilder<>(provider, processor);
-        }
     }
 
     public class BaseMessageBuilder {
