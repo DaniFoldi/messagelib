@@ -101,7 +101,7 @@ public class MessageBuilder<I> {
             for (Replacement r: replacements) {
                 final String safeFrom = processor.toTemplate(r.from).chars()
                         .mapToObj(c -> (char)c)
-                        .map(c -> "\\" + c)
+                        .map(c -> "[" + c + "]")
                         .collect(Collectors.joining());
                 if (r.maxCount < 0) {
                     result = result.replaceAll(safeFrom, r.to);
