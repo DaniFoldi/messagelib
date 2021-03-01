@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -24,13 +23,10 @@ public class MessageBuilder<I> {
         private class Replacement {
             private final String from;
             private final String to;
-            // -1 if all occurences should be replaced
-            private final int maxCount;
 
-            private Replacement(final @NotNull String from, final @NotNull String to, final int maxCount) {
+            private Replacement(final @NotNull String from, final @NotNull String to) {
                 this.from = requireNonNull(from);
                 this.to = requireNonNull(to);
-                this.maxCount = maxCount;
             }
         }
 
@@ -43,19 +39,7 @@ public class MessageBuilder<I> {
         }
 
         public @NotNull BaseMessageBuilder usingTemplate(final @NotNull String from, final @NotNull String to) {
-            replacements.add(new Replacement(from, to, -1));
-            return this;
-        }
-
-        public @NotNull BaseMessageBuilder usingTemplateOnce(final @NotNull String from, final @NotNull String to) {
-            replacements.add(new Replacement(from, to, 1));
-            return this;
-        }
-
-        public @NotNull BaseMessageBuilder usingTemplateLimited(final @NotNull String from,
-                                                                final @NotNull String to,
-                                                                int maxCount) {
-            replacements.add(new Replacement(from, to, maxCount));
+            replacements.add(new Replacement(from, to));
             return this;
         }
 
@@ -63,19 +47,7 @@ public class MessageBuilder<I> {
             String result = base;
 
             for (Replacement r: replacements) {
-                final String safeFrom = processor.toTemplate(r.from).chars()
-                        .mapToObj(c -> (char)c)
-                        .map(c -> "[" + c + "]")
-                        .collect(Collectors.joining());
-                if (r.maxCount < 0) {
-                    result = result.replaceAll(safeFrom, r.to);
-                } else if (r.maxCount == 1) {
-                    result = result.replaceFirst(safeFrom, r.to);
-                } else {
-                    for (int i = 0; i < r.maxCount; i++) {
-                        result = result.replaceFirst(safeFrom, r.to);
-                    }
-                }
+                result = result.replace(processor.toTemplate(r.from), r.to);
             }
 
             return result;
