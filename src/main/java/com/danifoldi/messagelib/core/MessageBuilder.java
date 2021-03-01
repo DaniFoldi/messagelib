@@ -6,19 +6,24 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-public class MessageBuilder<I> {
-    private final MessageProvider<I> provider;
+public class MessageBuilder<M, K> {
+    private final MessageProvider<K> provider;
     private final TemplateProcessor processor;
+    private final Function<String, M> messageConverter;
 
-    public MessageBuilder(final @NotNull MessageProvider<I> provider, final @NotNull TemplateProcessor processor) {
+    public MessageBuilder(final @NotNull MessageProvider<K> provider,
+                          final @NotNull TemplateProcessor processor,
+                          final @NotNull Function<String, @NotNull M> messageConverter) {
         this.provider = requireNonNull(provider);
         this.processor = requireNonNull(processor);
+        this.messageConverter = requireNonNull(messageConverter);
     }
 
-    public class BaseMessageBuilder {
+    public class BaseMessageBuilder<T> {
 
         private class Replacement {
             private final String from;
@@ -38,23 +43,23 @@ public class MessageBuilder<I> {
             this.replacements = new ArrayList<>();
         }
 
-        public @NotNull BaseMessageBuilder usingTemplate(final @NotNull String from, final @NotNull String to) {
+        public @NotNull BaseMessageBuilder<T> usingTemplate(final @NotNull String from, final @NotNull String to) {
             replacements.add(new Replacement(from, to));
             return this;
         }
 
-        public @NotNull String execute() {
+        public @NotNull M execute() {
             String result = base;
 
             for (Replacement r: replacements) {
                 result = result.replace(processor.toTemplate(r.from), r.to);
             }
 
-            return result;
+            return messageConverter.apply(result);
         }
     }
 
-    public @NotNull BaseMessageBuilder getBase(final @NotNull I id) {
-        return new BaseMessageBuilder(provider.getMessageBase(id));
+    public @NotNull BaseMessageBuilder<M> getBase(final @NotNull K id) {
+        return new BaseMessageBuilder<>(provider.getMessageBase(id));
     }
 }
