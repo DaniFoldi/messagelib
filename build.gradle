@@ -30,7 +30,7 @@ artifacts {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            groupId = 'com.danifoldi.messagelib'
+            groupId = 'com.danifoldi'
             artifactId = 'messagelib-core'
             from components.java
             artifact sourcesJar
